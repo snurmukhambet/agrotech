@@ -14,8 +14,7 @@ warnings.filterwarnings('ignore')
 
 # ─── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="CropYield AI · Innovative AI Challenge 2024",
-    page_icon="🌾",
+    page_title="Agrotech",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -29,59 +28,58 @@ html, body, [class*="css"] {
 
 /* Hero banner */
 .hero {
-    background: #f5f5f5;
-    border-top: 3px solid #333;
-    padding: 24px 0;
-    margin-bottom: 24px;
+    background: white;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 32px 0 24px 0;
+    margin-bottom: 32px;
     color: #333;
 }
-.hero h1 { color: #333; font-size: 2rem; margin: 0 0 4px 0; font-weight: 600; }
-.hero h2 { color: #666; font-size: 0.95rem; margin: 4px 0; font-weight: 400; }
-.hero p { color: #666; font-size: 0.95rem; margin: 4px 0 0 0; }
+.hero h1 { color: #000; font-size: 2.2rem; margin: 0; font-weight: 700; letter-spacing: -0.5px; }
 
 /* Metric cards */
 .metric-card {
     background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    padding: 16px;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    padding: 18px;
     text-align: center;
 }
 .metric-card .value {
     font-size: 1.8rem;
-    font-weight: 600;
-    color: #333;
+    font-weight: 700;
+    color: #000;
 }
-.metric-card .label { font-size: 0.8rem; color: #999; margin-top: 6px; }
+.metric-card .label { font-size: 0.78rem; color: #888; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
 
 /* Prediction result */
 .prediction-box {
     background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    padding: 24px;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    padding: 28px;
     text-align: center;
     margin-top: 16px;
 }
 .prediction-box .yield-value {
-    font-size: 2.2rem;
-    font-weight: 600;
-    color: #333;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #000;
 }
-.prediction-box .unit { font-size: 1rem; color: #666; }
+.prediction-box .unit { font-size: 1rem; color: #666; margin-top: 4px; }
 
 /* Section headers */
 .section-header {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #333;
-    margin: 20px 0 12px 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #000;
+    margin: 24px 0 14px 0;
     padding: 0;
+    letter-spacing: -0.3px;
 }
 
 /* Sidebar */
 [data-testid="stSidebar"] {
-    background: white;
+    background: #fafafa;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -190,9 +188,7 @@ soils      = sorted(df['Soil_Type'].unique())
 # ─── Hero ─────────────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="hero">
-  <h1>🌾 CropYield AI</h1>
-  <h2>Sayan Nurmukhambet, Aidar Amangeldy, Bahyt Madenali</h2>
-  <p>Predict crop yield using rainfall, soil type, and irrigation data with Random Forest.</p>
+  <h1>Agrotech</h1>
 </div>
 """, unsafe_allow_html=True)
 
@@ -210,7 +206,7 @@ with c4:
 st.markdown("<br>", unsafe_allow_html=True)
 
 # ─── Tabs ─────────────────────────────────────────────────────────────────────
-tab1, tab2, tab3 = st.tabs(["🎯 Predict Yield", "📊 Data Insights", "🔬 Model Analysis"])
+tab1, tab2, tab3 = st.tabs(["Prediction", "Analytics", "Model"])
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -220,22 +216,22 @@ with tab1:
     left, right = st.columns([1, 1], gap="large")
 
     with left:
-        st.markdown('<div class="section-header">Input Parameters</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Parameters</div>', unsafe_allow_html=True)
 
         col_a, col_b = st.columns(2)
         with col_a:
-            year    = st.selectbox("📅 Year",   list(range(2000, 2026)), index=22)
-            state   = st.selectbox("🗺️ State",  states)
-            soil    = st.selectbox("🌱 Soil Type", soils)
+            year    = st.selectbox("Year",   list(range(2000, 2026)), index=22)
+            state   = st.selectbox("State",  states)
+            soil    = st.selectbox("Soil Type", soils)
         with col_b:
-            crop      = st.selectbox("🌾 Crop Type", crops)
-            rainfall  = st.slider("🌧️ Rainfall (mm)", 100, 2000, 750, step=10)
-            irrigation = st.slider("🚜 Irrigation Area (ha × 1000)", 1, 200, 50)
+            crop      = st.selectbox("Crop Type", crops)
+            rainfall  = st.slider("Rainfall (mm)", 100, 2000, 750, step=10)
+            irrigation = st.slider("Irrigation Area (ha)", 1, 200, 50)
 
-        predict_btn = st.button("🔮 Predict Crop Yield", use_container_width=True, type="primary")
+        predict_btn = st.button("Predict", use_container_width=True, type="primary")
 
     with right:
-        st.markdown('<div class="section-header">Prediction Result</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Result</div>', unsafe_allow_html=True)
 
         if predict_btn:
             result = predict(model, encoders, scaler, year, state, crop, rainfall, soil, irrigation)
@@ -255,24 +251,25 @@ with tab1:
             st.markdown("<br>", unsafe_allow_html=True)
             subset = df[df['Crop_Type'] == crop]['Crop_Yield (kg/ha)']
             fig, ax = plt.subplots(figsize=(6, 2.5))
-            ax.hist(subset, bins=40, color='#ccc', alpha=0.7, edgecolor='#999')
-            ax.axvline(result, color='#333', linewidth=2, linestyle='--', label=f'Prediction: {result:,.0f}')
+            ax.hist(subset, bins=40, color='#f0f0f0', alpha=0.9, edgecolor='#ddd')
+            ax.axvline(result, color='#333', linewidth=2.5, linestyle='-', label=f'Prediction: {result:,.0f}')
             ax.set_xlabel('Crop Yield (kg/ha)', fontsize=9)
             ax.set_ylabel('Frequency', fontsize=9)
             ax.set_title(f'{crop} yield distribution', fontsize=10, fontweight='normal')
             ax.legend(fontsize=8)
             ax.spines[['top','right']].set_visible(False)
+            ax.set_facecolor('white')
             plt.tight_layout()
             st.pyplot(fig)
         else:
-            st.info("👈  Fill in the parameters on the left and click **Predict Crop Yield**.")
+            st.info("Fill in the parameters on the left and click Predict.")
 
 
 # ════════════════════════════════════════════════════════════════════════════
 # TAB 2 — EDA
 # ════════════════════════════════════════════════════════════════════════════
 with tab2:
-    st.markdown('<div class="section-header">Crop Yield by State & Crop Type</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Yield by State and Crop Type</div>', unsafe_allow_html=True)
 
     grouped = df.groupby(['State', 'Crop_Type'])['Crop_Yield (kg/ha)'].mean().reset_index()
     fig = px.bar(
@@ -286,7 +283,7 @@ with tab2:
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown('<div class="section-header">Rainfall vs Yield</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Rainfall Impact</div>', unsafe_allow_html=True)
         fig2 = px.scatter(
             df.sample(1000, random_state=1), x='Rainfall', y='Crop_Yield (kg/ha)',
             color='Crop_Type', opacity=0.5, template='plotly_white',
@@ -296,7 +293,7 @@ with tab2:
         st.plotly_chart(fig2, use_container_width=True)
 
     with col2:
-        st.markdown('<div class="section-header">Yield by Soil Type</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Soil Type Analysis</div>', unsafe_allow_html=True)
         fig3 = px.box(
             df, x='Soil_Type', y='Crop_Yield (kg/ha)',
             color='Soil_Type', template='plotly_white',
@@ -304,14 +301,14 @@ with tab2:
         fig3.update_layout(height=340, showlegend=False)
         st.plotly_chart(fig3, use_container_width=True)
 
-    st.markdown('<div class="section-header">Avg Yield Over Years</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Yield Trend</div>', unsafe_allow_html=True)
     yearly = df.groupby('Year')['Crop_Yield (kg/ha)'].mean().reset_index()
     fig4 = px.line(yearly, x='Year', y='Crop_Yield (kg/ha)',
                    markers=True, template='plotly_white')
     fig4.update_layout(height=300)
     st.plotly_chart(fig4, use_container_width=True)
 
-    st.markdown('<div class="section-header">Heatmap: Soil × Crop → Avg Yield</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Soil and Crop Yield Matrix</div>', unsafe_allow_html=True)
     pivot = df.pivot_table(index='Soil_Type', columns='Crop_Type',
                            values='Crop_Yield (kg/ha)', aggfunc='mean')
     fig5, ax5 = plt.subplots(figsize=(10, 3.5))
@@ -325,7 +322,7 @@ with tab2:
 # TAB 3 — MODEL
 # ════════════════════════════════════════════════════════════════════════════
 with tab3:
-    st.markdown('<div class="section-header">Feature Importances</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Feature Importance</div>', unsafe_allow_html=True)
 
     importances = pd.DataFrame({
         'Feature':    feature_cols,
@@ -337,7 +334,7 @@ with tab3:
     fig_fi.update_layout(height=350)
     st.plotly_chart(fig_fi, use_container_width=True)
 
-    st.markdown('<div class="section-header">Model Configuration</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Configuration</div>', unsafe_allow_html=True)
     config = {
         'Algorithm': 'Random Forest Regressor',
         'n_estimators': 200,
@@ -351,7 +348,7 @@ with tab3:
     }
     st.table(pd.DataFrame(list(config.items()), columns=['Parameter', 'Value']))
 
-    st.markdown('<div class="section-header">Actual vs Predicted (test set sample)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Prediction Accuracy</div>', unsafe_allow_html=True)
 
     # Quick re-compute for scatter
     @st.cache_data
@@ -383,8 +380,8 @@ with tab3:
 # ─── Footer ───────────────────────────────────────────────────────────────────
 st.markdown("---")
 st.markdown(
-    "<div style='text-align:center; color:#999; font-size:0.8rem'>"
-    "CropYield AI"
+    "<div style='text-align:center; color:#bbb; font-size:0.75rem'>"
+    "Agrotech"
     "</div>",
     unsafe_allow_html=True,
 )
