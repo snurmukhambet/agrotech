@@ -23,99 +23,65 @@ st.set_page_config(
 # ─── Custom CSS ───────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap');
-
 html, body, [class*="css"] {
-    font-family: 'DM Sans', sans-serif;
-}
-h1, h2, h3 {
-    font-family: 'DM Serif Display', serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 /* Hero banner */
 .hero {
-    background: linear-gradient(135deg, #1a3a1a 0%, #2d6a2d 50%, #1a4a2a 100%);
-    border-radius: 16px;
-    padding: 40px 48px;
-    margin-bottom: 32px;
-    color: white;
-    position: relative;
-    overflow: hidden;
+    background: #f5f5f5;
+    border-top: 3px solid #333;
+    padding: 24px 0;
+    margin-bottom: 24px;
+    color: #333;
 }
-.hero::before {
-    content: '🌾';
-    position: absolute;
-    right: 48px;
-    top: 20px;
-    font-size: 100px;
-    opacity: 0.15;
-}
-.hero h1 { color: white; font-size: 2.4rem; margin-bottom: 8px; }
-.hero p { color: #a8d5a2; font-size: 1.05rem; margin: 0; }
-.hero .badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 20px;
-    padding: 4px 14px;
-    font-size: 0.78rem;
-    letter-spacing: 0.05em;
-    margin-bottom: 12px;
-    color: #d4f5d0;
-}
+.hero h1 { color: #333; font-size: 2rem; margin: 0 0 4px 0; font-weight: 600; }
+.hero h2 { color: #666; font-size: 0.95rem; margin: 4px 0; font-weight: 400; }
+.hero p { color: #666; font-size: 0.95rem; margin: 4px 0 0 0; }
 
 /* Metric cards */
 .metric-card {
-    background: #f7faf7;
-    border: 1px solid #d4e8d4;
-    border-radius: 12px;
-    padding: 20px 24px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 16px;
     text-align: center;
 }
 .metric-card .value {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 600;
-    color: #2d6a2d;
-    font-family: 'DM Serif Display', serif;
+    color: #333;
 }
-.metric-card .label { font-size: 0.82rem; color: #6b8f6b; margin-top: 4px; }
+.metric-card .label { font-size: 0.8rem; color: #999; margin-top: 6px; }
 
 /* Prediction result */
 .prediction-box {
-    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-    border: 2px solid #4caf50;
-    border-radius: 16px;
-    padding: 32px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 24px;
     text-align: center;
     margin-top: 16px;
 }
 .prediction-box .yield-value {
-    font-size: 3rem;
-    font-weight: 700;
-    color: #1b5e20;
-    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #333;
 }
-.prediction-box .unit { font-size: 1.2rem; color: #388e3c; }
+.prediction-box .unit { font-size: 1rem; color: #666; }
 
 /* Section headers */
 .section-header {
-    font-size: 1.35rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    color: #1a3a1a;
-    border-left: 4px solid #4caf50;
-    padding-left: 12px;
-    margin: 24px 0 16px;
-    font-family: 'DM Serif Display', serif;
+    color: #333;
+    margin: 20px 0 12px 0;
+    padding: 0;
 }
 
 /* Sidebar */
 [data-testid="stSidebar"] {
-    background: #f0f7f0;
-}
-[data-testid="stSidebar"] .stSelectbox label,
-[data-testid="stSidebar"] .stSlider label {
-    font-weight: 500;
-    color: #2d5a2d;
+    background: white;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -224,10 +190,9 @@ soils      = sorted(df['Soil_Type'].unique())
 # ─── Hero ─────────────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="hero">
-  <div class="badge">🏆 Innovative AI Challenge 2024 · Challenge 1</div>
-  <h1>CropYield AI</h1>
-  <h2>Students: Sayan Nurmukhambet, Aidar Amangeldy, Bahyt Madenali</h2>
-  <p>Predict agricultural productivity using rainfall, soil type, and irrigation data powered by Random Forest.</p>
+  <h1>🌾 CropYield AI</h1>
+  <h2>Sayan Nurmukhambet, Aidar Amangeldy, Bahyt Madenali</h2>
+  <p>Predict crop yield using rainfall, soil type, and irrigation data with Random Forest.</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -275,22 +240,12 @@ with tab1:
         if predict_btn:
             result = predict(model, encoders, scaler, year, state, crop, rainfall, soil, irrigation)
 
-            # Rating
-            if result >= 5000:
-                rating, color = "🟢 Excellent", "#1b5e20"
-            elif result >= 3000:
-                rating, color = "🟡 Good", "#f57f17"
-            else:
-                rating, color = "🔴 Below Average", "#b71c1c"
-
             st.markdown(f"""
             <div class="prediction-box">
-                <div style="font-size:0.9rem; color:#555; margin-bottom:8px;">Estimated Crop Yield</div>
+                <div style="font-size:0.85rem; color:#999; margin-bottom:8px;">Estimated Crop Yield</div>
                 <div class="yield-value">{result:,.0f}</div>
                 <div class="unit">kg / hectare</div>
-                <hr style="border-color:#4caf50; margin:16px 0">
-                <div style="font-size:1.1rem; color:{color}; font-weight:600">{rating}</div>
-                <div style="font-size:0.85rem; color:#555; margin-top:8px">
+                <div style="font-size:0.85rem; color:#999; margin-top:12px">
                     {crop} · {soil} soil · {rainfall} mm rainfall
                 </div>
             </div>
@@ -300,10 +255,11 @@ with tab1:
             st.markdown("<br>", unsafe_allow_html=True)
             subset = df[df['Crop_Type'] == crop]['Crop_Yield (kg/ha)']
             fig, ax = plt.subplots(figsize=(6, 2.5))
-            ax.hist(subset, bins=40, color='#4caf50', alpha=0.5, edgecolor='white')
-            ax.axvline(result, color='#1b5e20', linewidth=2.5, linestyle='--', label=f'Your prediction: {result:,.0f}')
+            ax.hist(subset, bins=40, color='#ccc', alpha=0.7, edgecolor='#999')
+            ax.axvline(result, color='#333', linewidth=2, linestyle='--', label=f'Prediction: {result:,.0f}')
             ax.set_xlabel('Crop Yield (kg/ha)', fontsize=9)
-            ax.set_title(f'{crop} yield distribution', fontsize=10)
+            ax.set_ylabel('Frequency', fontsize=9)
+            ax.set_title(f'{crop} yield distribution', fontsize=10, fontweight='normal')
             ax.legend(fontsize=8)
             ax.spines[['top','right']].set_visible(False)
             plt.tight_layout()
@@ -322,7 +278,6 @@ with tab2:
     fig = px.bar(
         grouped, x='State', y='Crop_Yield (kg/ha)', color='Crop_Type',
         barmode='group', template='plotly_white',
-        color_discrete_sequence=px.colors.qualitative.Set2,
         labels={'Crop_Yield (kg/ha)': 'Avg Yield (kg/ha)'},
     )
     fig.update_layout(legend_title_text='Crop Type', height=380)
@@ -335,7 +290,6 @@ with tab2:
         fig2 = px.scatter(
             df.sample(1000, random_state=1), x='Rainfall', y='Crop_Yield (kg/ha)',
             color='Crop_Type', opacity=0.5, template='plotly_white',
-            color_discrete_sequence=px.colors.qualitative.Pastel,
             trendline='ols',
         )
         fig2.update_layout(height=340, showlegend=False)
@@ -346,7 +300,6 @@ with tab2:
         fig3 = px.box(
             df, x='Soil_Type', y='Crop_Yield (kg/ha)',
             color='Soil_Type', template='plotly_white',
-            color_discrete_sequence=px.colors.qualitative.Set3,
         )
         fig3.update_layout(height=340, showlegend=False)
         st.plotly_chart(fig3, use_container_width=True)
@@ -354,8 +307,7 @@ with tab2:
     st.markdown('<div class="section-header">Avg Yield Over Years</div>', unsafe_allow_html=True)
     yearly = df.groupby('Year')['Crop_Yield (kg/ha)'].mean().reset_index()
     fig4 = px.line(yearly, x='Year', y='Crop_Yield (kg/ha)',
-                   markers=True, template='plotly_white',
-                   color_discrete_sequence=['#2d6a2d'])
+                   markers=True, template='plotly_white')
     fig4.update_layout(height=300)
     st.plotly_chart(fig4, use_container_width=True)
 
@@ -363,8 +315,8 @@ with tab2:
     pivot = df.pivot_table(index='Soil_Type', columns='Crop_Type',
                            values='Crop_Yield (kg/ha)', aggfunc='mean')
     fig5, ax5 = plt.subplots(figsize=(10, 3.5))
-    sns.heatmap(pivot, annot=True, fmt='.0f', cmap='YlGn', ax=ax5, linewidths=0.5)
-    ax5.set_title('Average Crop Yield (kg/ha) by Soil Type and Crop Type', fontsize=11)
+    sns.heatmap(pivot, annot=True, fmt='.0f', cmap='gray', ax=ax5, linewidths=0.5, cbar_kws={'label': 'Avg Yield (kg/ha)'})
+    ax5.set_title('Average Crop Yield by Soil Type and Crop Type', fontsize=11)
     plt.tight_layout()
     st.pyplot(fig5)
 
@@ -381,9 +333,8 @@ with tab3:
     }).sort_values('Importance', ascending=True)
 
     fig_fi = px.bar(importances, x='Importance', y='Feature',
-                    orientation='h', template='plotly_white',
-                    color='Importance', color_continuous_scale='Greens')
-    fig_fi.update_layout(height=350, coloraxis_showscale=False)
+                    orientation='h', template='plotly_white')
+    fig_fi.update_layout(height=350)
     st.plotly_chart(fig_fi, use_container_width=True)
 
     st.markdown('<div class="section-header">Model Configuration</div>', unsafe_allow_html=True)
@@ -421,11 +372,10 @@ with tab3:
         x=y_actual, y=y_pred_vals,
         labels={'x': 'Actual Yield', 'y': 'Predicted Yield'},
         template='plotly_white', opacity=0.6,
-        color_discrete_sequence=['#4caf50'],
     )
     max_val = max(y_actual.max(), y_pred_vals.max())
     fig_s.add_trace(go.Scatter(x=[0, max_val], y=[0, max_val],
-                               mode='lines', line=dict(dash='dash', color='gray'),
+                               mode='lines', line=dict(dash='dash', color='#999'),
                                name='Perfect prediction'))
     fig_s.update_layout(height=380)
     st.plotly_chart(fig_s, use_container_width=True)
@@ -433,8 +383,8 @@ with tab3:
 # ─── Footer ───────────────────────────────────────────────────────────────────
 st.markdown("---")
 st.markdown(
-    "<div style='text-align:center; color:#6b8f6b; font-size:0.82rem'>"
-    "CropYield AI · Innovative AI Challenge 2024 · Challenge 1: Agricultural Productivity"
+    "<div style='text-align:center; color:#999; font-size:0.8rem'>"
+    "CropYield AI"
     "</div>",
     unsafe_allow_html=True,
 )
